@@ -12,7 +12,9 @@ const userController = {
     try {
       const token = req.headers.authorization.split(" ")[1];
       const payload = jwt.verify(token, secret);
-      const user = await User.findById({ _id: payload._id });
+      const user = await User.findById({ _id: payload._id }).populate(
+        "favoriteRecipes"
+      );
       if (!user) {
         return next(new HttpError("User does not exist", 404));
       }

@@ -17,6 +17,7 @@ const signupRouter = require("./routes/signup");
 const loginRouter = require("./routes/login");
 const adminRouter = require("./routes/admin");
 const userRouter = require("./routes/users");
+const recipeRouter = require("./routes/recipes");
 const HttpError = require("./models/httpError");
 
 // Middleware to parse incoming request bodies
@@ -28,6 +29,7 @@ app.use("/api/v1/signup", signupRouter);
 app.use("/api/v1/login", loginRouter);
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/recipes", recipeRouter);
 
 // Handling unknown routes
 app.use((req, res, next) => {

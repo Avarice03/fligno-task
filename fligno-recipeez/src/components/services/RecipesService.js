@@ -8,6 +8,11 @@ export const getUserDetails = async () => {
   return data;
 };
 
+export const getFavoriteRecipes = async () => {
+  const { data } = await axios.get(`${BASE_URL}/recipes`);
+  return data;
+};
+
 export const loginUser = async (user) => {
   const response = await axios.post(`${BASE_URL}/login`, user);
   return response;
@@ -18,8 +23,18 @@ export const addUser = async (user) => {
   return response;
 };
 
+export const addFavorite = async (recipe) => {
+  const response = await axios.post(`${BASE_URL}/recipes`, recipe);
+  return response;
+};
+
 export const updateUserDetails = async (userDetails) => {
   const response = await axios.put(`${BASE_URL}/user`, userDetails);
+  return response;
+};
+
+export const removeFavorite = async (recipe) => {
+  const response = await axios.put(`${BASE_URL}/recipes`, recipe);
   return response;
 };
 

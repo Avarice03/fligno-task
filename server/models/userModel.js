@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   userName: { type: String, required: true },
   password: { type: String, required: true },
-  favoriteRecipes: [{ type: mongoose.Types.ObjectId }],
+  favoriteRecipes: [{ type: mongoose.Types.ObjectId, ref: "Recipe" }],
 });
 
 // Defining a model

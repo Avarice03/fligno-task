@@ -1,12 +1,40 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import imagePlaceholder from "./images/photo.png";
 import { useNavigate } from "react-router-dom";
+import { UserDetailsContext } from "./providers/UserDetailsProvider";
+import { addFavorite, removeFavorite } from "./services/RecipesService";
 
-function RecipeCard({ id, image, name, calories, servings, source }) {
-  const [isFavorite, setIsFavorite] = useState(false);
+function RecipeCard({ id, image, name, calories, servings, source, details }) {
+  const [userDetails] = useContext(UserDetailsContext);
+  const [isFavorite, setIsFavorite] = useState(
+    userDetails.favoriteRecipes.some((recipe) => {
+      return recipe.uri === details.uri;
+    })
+  );
   const navigate = useNavigate();
-  const toggleFavorite = () => {
-    setIsFavorite((prevIsFavorite) => !prevIsFavorite);
+
+  if (!userDetails) {
+    return null;
+  }
+
+  const toggleFavorite = async () => {
+    const recipe = details;
+    console.log(userDetails);
+    if (isFavorite) {
+      try {
+        await removeFavorite(recipe);
+        setIsFavorite(false);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        await addFavorite(recipe);
+        setIsFavorite(true);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   const showRecipe = (id) => {

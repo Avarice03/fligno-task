@@ -23,7 +23,7 @@ function Recipes() {
   let categoryQuery = query.get("category");
   let cuisineQuery = query.get("cuisine");
   const BASE_URL =
-    "https://api.edamam.com/api/recipes/v2?type=public&app_id=eafc061e&app_key=a5794987f811b6ea660835e57fcc3b19";
+    "https://api.edamam.com/api/recipes/v2?type=public&app_id=eafc061e&app_key=a5794987f811b6ea660835e57fcc3b19&field=uri&field=label&field=image&field=source&field=url&field=yield&field=healthLabels&field=ingredientLines&field=calories&field=cuisineType&field=mealType&field=dishType&field=totalNutrients";
   // const BASE_URL = "http://localhost:3069";
 
   useEffect(() => {
@@ -210,6 +210,7 @@ function Recipes() {
             name={recipe.recipe.label}
             image={recipe.recipe.image}
             source={recipe.recipe.source}
+            details={recipe.recipe}
           />
         ))}
       </div>
