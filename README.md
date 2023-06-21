@@ -7,21 +7,21 @@ with access to a nutrition analysis, food database, and recipe search functional
 
 ## Features
 
-1. Signup and Login Page: Users can sign up and log in to the application to access other features. The application will have its own backend to store user information. OAuth or JSON Web Tokens (JWT) can be used for authentication.
+1. **Signup and Login Page:** Users can sign up and log in to the application to access other features. The application will have its own backend to store user information. OAuth or JSON Web Tokens (JWT) can be used for authentication.
 
-2. Home Page: The home page will display recipe data obtained from the /api/recipes/v2 endpoint. The displayed data should be paginated for better user experience.
+2. **Home Page:** The home page will display recipe data obtained from the /api/recipes/v2 endpoint. The displayed data should be paginated for better user experience.
 
-3. Recipe Search Functionality: Users will be able to search for recipes using the application. The search functionality will leverage the capabilities provided by the Edamam API.
+3. **Recipe Search Functionality:** Users will be able to search for recipes using the application. The search functionality will leverage the capabilities provided by the Edamam API.
 
-4. Recipe Details Page: Users can view additional details of a specific recipe on a dedicated page. This page will provide comprehensive information about the selected recipe.
+4. **Recipe Details Page:** Users can view additional details of a specific recipe on a dedicated page. This page will provide comprehensive information about the selected recipe.
 
-5. Favorite Functionality: Users can mark recipes as favorites, and the application will store this information in the database. Users should also have the ability to unfavorite recipes if desired.
+5. **Favorite Functionality:** Users can mark recipes as favorites, and the application will store this information in the database. Users should also have the ability to unfavorite recipes if desired.
 
-6. Reusable Components: The application should utilize reusable components to enhance modularity and code maintainability.
+6. **Reusable Components:** The application should utilize reusable components to enhance modularity and code maintainability.
 
-7. Logout Functionality: Users can log out of the application when they are done using it.
+7. **Logout Functionality:** Users can log out of the application when they are done using it.
 
-8. Clean and Organized Code: The codebase should follow best practices and be well-organized and maintainable.
+8. **Clean and Organized Code:** The codebase should follow best practices and be well-organized and maintainable.
 
 ## Getting Started
 
