@@ -254,7 +254,7 @@ function Account() {
           <div className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="deleteModalLabel">
-                {`Are you sure you want to delete your account with your recipes?`}
+                {`Are you sure you want to delete your account with your favorite recipes?`}
               </h1>
               <button
                 type="button"

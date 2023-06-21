@@ -21,7 +21,14 @@ function App() {
       element: <MainLayout />,
       children: [
         { path: "/", element: <Home /> },
-        { path: "recipes", element: <Recipes /> },
+        {
+          path: "recipes",
+          element: (
+            <RouteGuard>
+              <Recipes />
+            </RouteGuard>
+          ),
+        },
         { path: "recipe/:id", element: <RecipePage /> },
         { path: "timer", element: <Timer /> },
         { path: "about-this-app", element: <About /> },

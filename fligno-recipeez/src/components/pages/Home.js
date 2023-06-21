@@ -28,24 +28,13 @@ function Home() {
                 Get Started
               </NavLink>
             </button>
-            <button className="recipe-btn btn btn-outline-danger">
-              <NavLink
-                to="/recipes"
-                className="explore-btn"
-                style={{ textDecoration: "none" }}
-              >
-                <span className="">Explore Recipes</span>
-              </NavLink>
-            </button>
           </div>
         </div>
         <div className="hero-image">
           <img src={chef} alt="placeholder of a chef"></img>
         </div>
       </div>
-      <h4>
-        Your Favorite Food Companion
-      </h4>
+      <h4>Your Favorite Food Companion</h4>
       <div className="featured-container">
         <div className="featured-item">
           <img src={easyImg} alt="icon portraying easy"></img>

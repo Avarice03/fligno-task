@@ -40,11 +40,16 @@ function Navigation() {
                   Home
                 </NavLink>
               </li>
-              <li className="nav-item">
-                <NavLink to="/recipes" className="nav-link">
-                  Recipes
-                </NavLink>
-              </li>
+              {isLoggedIn ? (
+                <li className="nav-item">
+                  <NavLink to="/recipes" className="nav-link">
+                    Recipes
+                  </NavLink>
+                </li>
+              ) : (
+                ""
+              )}
+
               <li className="nav-item ">
                 <NavLink to="/timer" className="nav-link">
                   Timer

@@ -1,71 +1,57 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FilterCategory from "../FilterCategory";
-import RecipeButton from "../RecipeButton";
 import axios from "axios";
 import { UserContext } from "../providers/User";
 import spinner from "../images/loading.gif";
+import RecipeCard from "../RecipeCard";
 
 // Recipes Home page for RecipeEZ
 function Recipes() {
-  const [isLoggedIn, setLoggedIn] = useContext(UserContext);
   const navigate = useNavigate();
-  const [recipes, setRecipes] = useState([]);
-  const [recipesCopy, setRecipesCopy] = useState(recipes);
+  const [isLoggedIn, setLoggedIn] = useContext(UserContext);
+  const [recipes, setRecipes] = useState();
+  const [recipesCopy, setRecipesCopy] = useState([]);
   const [category, setCategory] = useState("");
   const [cuisine, setCuisine] = useState("");
-  const [word, searchWord] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [keyword, setKeyword] = useState("");
   const [personal, setPersonal] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const tokenExists = localStorage.getItem("token-auth");
   const query = new URLSearchParams(useLocation().search);
   let categoryQuery = query.get("category");
   let cuisineQuery = query.get("cuisine");
-  const BASE_URL = "https://recipeez-api.onrender.com";
+  const BASE_URL =
+    "https://api.edamam.com/api/recipes/v2?type=public&app_id=eafc061e&app_key=a5794987f811b6ea660835e57fcc3b19";
   // const BASE_URL = "http://localhost:3069";
 
-  // useEffect(() => {
-  //   const fetch = async () => {
-  //     try {
-  //       setLoading(true);
-  //       if (isLoggedIn) {
-  //         if (!personal) {
-  //           axios.defaults.headers.common[
-  //             "Authorization"
-  //           ] = `Bearer ${tokenExists}`;
-  //           const { data } = await axios.get(
-  //             `${BASE_URL}/v1/recipes/user?category=${categoryQuery}&cuisine=${cuisineQuery}`
-  //           );
-  //           setRecipesCopy(data);
-  //         } else {
-  //           axios.defaults.headers.common[
-  //             "Authorization"
-  //           ] = `Bearer ${tokenExists}`;
-  //           const { data } = await axios.get(
-  //             `${BASE_URL}/v1/recipes/user/personal?category=${categoryQuery}&cuisine=${cuisineQuery}`
-  //           );
-  //           setRecipesCopy(data);
-  //         }
-  //       } else {
-  //         const { data } = await axios.get(
-  //           `${BASE_URL}/v1/recipes?category=${categoryQuery}&cuisine=${cuisineQuery}`
-  //         );
-  //         setRecipesCopy(data);
-  //       }
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.log("here", error);
-  //       if (error.response.data.message === "jwt expired") {
-  //         localStorage.removeItem("token-auth");
-  //         setLoggedIn();
-  //         window.location.reload(true);
-  //         alert(`Session expired`);
-  //       }
-  //     }
-  //   };
-  //   fetch();
-  //   // eslint-disable-next-line
-  // }, [categoryQuery, cuisineQuery, isLoggedIn, recipes, personal, tokenExists]);
+  useEffect(() => {
+    const fetchRecipes = async () => {
+      try {
+        setLoading(true);
+        if (isLoggedIn) {
+          const response = await axios.get(`${BASE_URL}&q=${keyword}`);
+          setRecipes(response.data.hits);
+          setRecipesCopy(response.data);
+        }
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        if (error.response.data.message === "jwt expired") {
+          localStorage.removeItem("token-auth");
+          setLoggedIn();
+          window.location.reload(true);
+          alert(`Session expired`);
+        }
+      }
+    };
+    fetchRecipes();
+    // eslint-disable-next-line
+  }, [isLoggedIn, keyword]);
+
+  // console.log("Recipes:", recipes);
+  // console.log("Recipes:", recipesCopy._links.next.href);
 
   if (categoryQuery === null) {
     categoryQuery = "";
@@ -73,22 +59,6 @@ function Recipes() {
   if (cuisineQuery === null) {
     cuisineQuery = "";
   }
-
-  // Push each category intro  an array
-  const categories = recipes.reduce((categories, recipe) => {
-    if (!categories.includes(recipe.category)) {
-      categories.push(recipe.category);
-    }
-    return categories;
-  }, []);
-
-  // Push each cuisine intro  an array
-  const cuisineCategories = recipes.reduce((cuisines, recipe) => {
-    if (!cuisines.includes(recipe.cuisine)) {
-      cuisines.push(recipe.cuisine);
-    }
-    return cuisines;
-  }, []);
 
   // Function for filtering recipes based on category and cuisine
   const filterCategory = useCallback((category, cuisine) => {
@@ -112,10 +82,24 @@ function Recipes() {
   const handleSearch = (e) => {
     e.preventDefault();
     filterCategory("", "");
-    const searchedWord = recipes.filter((recipe) =>
-      recipe.name.toLowerCase().includes(word.toLowerCase())
-    );
-    setRecipesCopy(searchedWord);
+    setKeyword(searchQuery);
+  };
+
+  if (!recipes) {
+    return null;
+  }
+
+  // Handle page change
+  const handleLoadMore = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`${recipesCopy._links.next.href}`);
+      setRecipes((prevRecipes) => [...prevRecipes, ...response.data.hits]);
+      setRecipesCopy(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   if (isLoading) {
@@ -128,7 +112,7 @@ function Recipes() {
     <div className="recipes-container">
       <div className="recipes-btn-container">
         <div className="filter-btn-grp">
-          <div className="category-btn">
+          {/* <div className="category-btn">
             <FilterCategory
               categories={categories}
               category={category}
@@ -145,16 +129,37 @@ function Recipes() {
               filterCategory={filterCategory}
               label={"Cuisine"}
             />
-          </div>
+          </div> */}
+          {isLoggedIn ? (
+            <div>
+              <input
+                type="checkbox"
+                className="btn-check"
+                id="btncheck"
+                onClick={() => setPersonal(!personal)}
+              ></input>
+              <label
+                className={
+                  !personal ? "btn btn-outline-danger" : "btn btn-danger"
+                }
+                htmlFor="btncheck"
+              >
+                Show Favorites
+              </label>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
+
         <div className="search-btn">
           <form className="d-flex" role="search">
             <input
               className="form-control me-2"
               type="search"
-              placeholder="Search"
+              placeholder="Find the recipe you're looking for"
               aria-label="Search"
-              onChange={(e) => searchWord(e.target.value)}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
             <button
               className="btn btn-outline-danger"
@@ -166,24 +171,6 @@ function Recipes() {
           </form>
         </div>
       </div>
-      {isLoggedIn ? (
-        <div>
-          <input
-            type="checkbox"
-            className="btn-check"
-            id="btncheck"
-            onClick={() => setPersonal(!personal)}
-          ></input>
-          <label
-            className={!personal ? "btn btn-outline-danger" : "btn btn-danger"}
-            htmlFor="btncheck"
-          >
-            Show Personal Recipes
-          </label>
-        </div>
-      ) : (
-        ""
-      )}
       <div className="filters-container">
         {category === "" ? (
           ""
@@ -210,18 +197,75 @@ function Recipes() {
           </button>
         )}
       </div>
+      <h2 className="text-danger" style={{ textTransform: "capitalize" }}>
+        {keyword}
+      </h2>
       <div className="recipes-item-container">
-        {recipesCopy.map((recipe) => (
-          <RecipeButton
-            key={recipe._id}
-            id={recipe._id}
-            name={recipe.name}
-            image={recipe.image}
+        {recipes.map((recipe) => (
+          <RecipeCard
+            key={recipe.recipe.uri}
+            // id={recipe._id}
+            calories={recipe.recipe.calories}
+            servings={recipe.recipe.yield}
+            name={recipe.recipe.label}
+            image={recipe.recipe.image}
+            source={recipe.recipe.source}
           />
         ))}
       </div>
+      {/* Pagination */}
+      {recipes.length === 0 || recipesCopy._links.next === undefined ? (
+        ""
+      ) : (
+        <button
+          className="btn btn-danger"
+          style={{ width: "200px" }}
+          onClick={handleLoadMore}
+        >
+          Load More
+        </button>
+      )}
     </div>
   );
 }
 
 export default Recipes;
+
+//   if (!personal) {
+//     axios.defaults.headers.common[
+//       "Authorization"
+//     ] = `Bearer ${tokenExists}`;
+//     const { data } = await axios.get(
+//       `${BASE_URL}/v1/recipes/user?category=${categoryQuery}&cuisine=${cuisineQuery}`
+//     );
+//     setRecipesCopy(data);
+//   } else {
+//     axios.defaults.headers.common[
+//       "Authorization"
+//     ] = `Bearer ${tokenExists}`;
+//     const { data } = await axios.get(
+//       `${BASE_URL}/v1/recipes/user/personal?category=${categoryQuery}&cuisine=${cuisineQuery}`
+//     );
+//     setRecipesCopy(data);
+//   }
+// } else {
+//   const { data } = await axios.get(
+//     `${BASE_URL}/v1/recipes?category=${categoryQuery}&cuisine=${cuisineQuery}`
+//   );
+//   setRecipesCopy(data);
+
+// Push each category intro  an array
+// const categories = recipes.reduce((categories, recipe) => {
+//   if (!categories.includes(recipe.category)) {
+//     categories.push(recipe.category);
+//   }
+//   return categories;
+// }, []);
+
+// // Push each cuisine intro  an array
+// const cuisineCategories = recipes.reduce((cuisines, recipe) => {
+//   if (!cuisines.includes(recipe.cuisine)) {
+//     cuisines.push(recipe.cuisine);
+//   }
+//   return cuisines;
+// }, []);
