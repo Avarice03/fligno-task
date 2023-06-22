@@ -47,6 +47,16 @@ function RecipePage() {
   return (
     <>
       <div className="recipePage-container">
+        <div className="back-btn">
+          <NavLink to="/recipes">
+            <img
+              src={backImg}
+              width="30"
+              alt="icon of back"
+              style={{ border: "none" }}
+            />
+          </NavLink>
+        </div>
         <div className="column-containers">
           <div className="left-column">
             <h1>{recipe.label}</h1>
@@ -98,470 +108,464 @@ function RecipePage() {
               </button>
             </div>
             <div className="recipe-notes">
-              <h2>Source: {recipe.source}</h2>
+              <h2>Source:</h2>
+              <p style={{ fontSize: "16px", marginLeft: "10px" }}>
+                {recipe.source}
+              </p>
             </div>
           </div>
-
           <div className="right-column">
-            <div className="back-btn">
-              <NavLink to="/recipes">
-                <img
-                  src={backImg}
-                  width="30"
-                  alt="icon of back"
-                  style={{ border: "none" }}
-                ></img>
-              </NavLink>
-            </div>
             <div className="recipe-nutrition">
               <h2 style={{ textAlign: "center" }}>Nutrition Facts</h2>
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th scope="col">
-                      {recipe.totalNutrients.FAT?.label || ""}
-                    </th>
-                    <th scope="col">
-                      {`
+              <div className="table-responsive">
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">
+                        {recipe.totalNutrients.FAT?.label || ""}
+                      </th>
+                      <th scope="col">
+                        {`
                       ${Math.floor(
                         (recipe.totalNutrients.FAT?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalNutrients.FAT?.unit || ""}`}
-                    </th>
-                    <th scope="col">
-                      {" "}
-                      {`
+                      </th>
+                      <th scope="col">
+                        {" "}
+                        {`
                       ${Math.floor(
                         (recipe.totalDaily.FAT?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.FAT?.unit || ""}`}
-                    </th>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span style={{ marginLeft: "20px" }} />
-                      {recipe.totalNutrients.FASAT?.label || ""}
-                    </td>
-                    <td>{`
+                      </th>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span style={{ marginLeft: "20px" }} />
+                        {recipe.totalNutrients.FASAT?.label || ""}
+                      </td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.FASAT?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalNutrients.FASAT?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.FASAT?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.FASAT?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span style={{ marginLeft: "20px" }} />
-                      {recipe.totalNutrients.FATRN?.label || "Trans"}
-                    </td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>
+                        <span style={{ marginLeft: "20px" }} />
+                        {recipe.totalNutrients.FATRN?.label || "Trans"}
+                      </td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.FATRN?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalNutrients.FATRN?.unit || "g"}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.FATRN?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.FATRN?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span style={{ marginLeft: "20px" }} />
-                      {recipe.totalNutrients.FAMS?.label || ""}
-                    </td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>
+                        <span style={{ marginLeft: "20px" }} />
+                        {recipe.totalNutrients.FAMS?.label || ""}
+                      </td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.FAMS?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalNutrients.FAMS?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.FAMS?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.FAMS?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span style={{ marginLeft: "20px" }} />
-                      {recipe.totalNutrients.FAPU?.label || "Trans"}
-                    </td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>
+                        <span style={{ marginLeft: "20px" }} />
+                        {recipe.totalNutrients.FAPU?.label || "Trans"}
+                      </td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.FAPU?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalNutrients.FAPU?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.FAPU?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.FAPU?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <th scope="col">
-                      {recipe.totalNutrients.CHOCDF?.label || ""}
-                    </th>
-                    <th scope="col">
-                      {`
+                    </tr>
+                    <tr>
+                      <th scope="col">
+                        {recipe.totalNutrients.CHOCDF?.label || ""}
+                      </th>
+                      <th scope="col">
+                        {`
                       ${Math.floor(
                         (recipe.totalNutrients.CHOCDF?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalNutrients.CHOCDF?.unit || ""}`}
-                    </th>
-                    <th scope="col">
-                      {" "}
-                      {`
+                      </th>
+                      <th scope="col">
+                        {" "}
+                        {`
                       ${Math.floor(
                         (recipe.totalDaily.CHOCDF?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.CHOCDF?.unit || ""}`}
-                    </th>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span style={{ marginLeft: "20px" }} />
-                      {recipe.totalNutrients["CHOCDF.net"]?.label || ""}
-                    </td>
-                    <td>{`
+                      </th>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span style={{ marginLeft: "20px" }} />
+                        {recipe.totalNutrients["CHOCDF.net"]?.label || ""}
+                      </td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients["CHOCDF.net"]?.quantity || 0) /
                           recipe.yield
                       )}${
-                      recipe.totalNutrients["CHOCDF.net"]?.unit || ""
-                    }`}</td>
-                    <td>{`
+                        recipe.totalNutrients["CHOCDF.net"]?.unit || ""
+                      }`}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily["CHOCDF.net"]?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalDaily["CHOCDF.net"]?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span style={{ marginLeft: "20px" }} />
-                      {recipe.totalNutrients.FIBTG?.label || ""}
-                    </td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>
+                        <span style={{ marginLeft: "20px" }} />
+                        {recipe.totalNutrients.FIBTG?.label || ""}
+                      </td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.FIBTG?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalNutrients.FIBTG?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.FIBTG?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.FIBTG?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span style={{ marginLeft: "20px" }} />
-                      {recipe.totalNutrients.SUGAR?.label || ""}
-                    </td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>
+                        <span style={{ marginLeft: "20px" }} />
+                        {recipe.totalNutrients.SUGAR?.label || ""}
+                      </td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.SUGAR?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalNutrients.SUGAR?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.SUGAR?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.SUGAR?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <span style={{ marginLeft: "20px" }} />
-                      {recipe.totalNutrients["SUGAR.added"]?.label ||
-                        "Sugars, added"}
-                    </td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>
+                        <span style={{ marginLeft: "20px" }} />
+                        {recipe.totalNutrients["SUGAR.added"]?.label ||
+                          "Sugars, added"}
+                      </td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients["SUGAR.added"]?.quantity || 0) /
                           recipe.yield
                       )}${
-                      recipe.totalNutrients["SUGAR.added"]?.unit || "g"
-                    }`}</td>
-                    <td>{`
+                        recipe.totalNutrients["SUGAR.added"]?.unit || "g"
+                      }`}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily["SUGAR.added"]?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalDaily["SUGAR.added"]?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>{recipe.totalNutrients.PROCNT?.label || ""}</td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>{recipe.totalNutrients.PROCNT?.label || ""}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.PROCNT?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalNutrients.PROCNT?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.PROCNT?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.PROCNT?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>{recipe.totalNutrients.CHOLE?.label || ""}</td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>{recipe.totalNutrients.CHOLE?.label || ""}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.CHOLE?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalNutrients.CHOLE?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.CHOLE?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.CHOLE?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>{recipe.totalNutrients.NA?.label || ""}</td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>{recipe.totalNutrients.NA?.label || ""}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.NA?.quantity || 0) / recipe.yield
                       )}${recipe.totalNutrients.NA?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.NA?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.NA?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>{recipe.totalNutrients.CA?.label || ""}</td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>{recipe.totalNutrients.CA?.label || ""}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.CA?.quantity || 0) / recipe.yield
                       )}${recipe.totalNutrients.CA?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.CA?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.CA?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>{recipe.totalNutrients.MG?.label || ""}</td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>{recipe.totalNutrients.MG?.label || ""}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.MG?.quantity || 0) / recipe.yield
                       )}${recipe.totalNutrients.MG?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.MG?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.MG?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>{recipe.totalNutrients.K?.label || ""}</td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>{recipe.totalNutrients.K?.label || ""}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.K?.quantity || 0) / recipe.yield
                       )}${recipe.totalNutrients.K?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.K?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.K?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>{recipe.totalNutrients.FE?.label || ""}</td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>{recipe.totalNutrients.FE?.label || ""}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.FE?.quantity || 0) / recipe.yield
                       )}${recipe.totalNutrients.FE?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.FE?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.FE?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>{recipe.totalNutrients.ZN?.label || ""}</td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>{recipe.totalNutrients.ZN?.label || ""}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.ZN?.quantity || 0) / recipe.yield
                       )}${recipe.totalNutrients.ZN?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.ZN?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.ZN?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>{recipe.totalNutrients.P?.label || ""}</td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>{recipe.totalNutrients.P?.label || ""}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.P?.quantity || 0) / recipe.yield
                       )}${recipe.totalNutrients.P?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.P?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.P?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>{recipe.totalNutrients.VITA_RAE?.label || ""}</td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>{recipe.totalNutrients.VITA_RAE?.label || ""}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.VITA_RAE?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalNutrients.VITA_RAE?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.VITA_RAE?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalDaily.VITA_RAE?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>{recipe.totalNutrients.VITC?.label || ""}</td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>{recipe.totalNutrients.VITC?.label || ""}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.VITC?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalNutrients.VITC?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.VITC?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.VITC?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>{recipe.totalNutrients.THIA?.label || ""}</td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>{recipe.totalNutrients.THIA?.label || ""}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.THIA?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalNutrients.THIA?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.THIA?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.THIA?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>{recipe.totalNutrients.RIBF?.label || ""}</td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>{recipe.totalNutrients.RIBF?.label || ""}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.RIBF?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalNutrients.RIBF?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.RIBF?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.RIBF?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>{recipe.totalNutrients.NIA?.label || ""}</td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>{recipe.totalNutrients.NIA?.label || ""}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.NIA?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalNutrients.NIA?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.NIA?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.NIA?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>{recipe.totalNutrients.VITB6A?.label || ""}</td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>{recipe.totalNutrients.VITB6A?.label || ""}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.VITB6A?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalNutrients.VITB6A?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.VITB6A?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.VITB6A?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>{recipe.totalNutrients.FOLDFE?.label || ""}</td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>{recipe.totalNutrients.FOLDFE?.label || ""}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.FOLDFE?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalNutrients.FOLDFE?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.FOLDFE?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.FOLDFE?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>{recipe.totalNutrients.FOLFD?.label || ""}</td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>{recipe.totalNutrients.FOLFD?.label || ""}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.FOLFD?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalNutrients.FOLFD?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.FOLFD?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.FOLFD?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>{recipe.totalNutrients.VITB12?.label || ""}</td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>{recipe.totalNutrients.VITB12?.label || ""}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.VITB12?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalNutrients.VITB12?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.VITB12?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.VITB12?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>{recipe.totalNutrients.VITD?.label || ""}</td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>{recipe.totalNutrients.VITD?.label || ""}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.VITD?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalNutrients.VITD?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.VITD?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.VITD?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>{recipe.totalNutrients.TOCPHA?.label || ""}</td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>{recipe.totalNutrients.TOCPHA?.label || ""}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.TOCPHA?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalNutrients.TOCPHA?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.TOCPHA?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.TOCPHA?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>{recipe.totalNutrients.VITK1?.label || ""}</td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>{recipe.totalNutrients.VITK1?.label || ""}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.VITK1?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalNutrients.VITK1?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.VITK1?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.VITK1?.unit || "%"}`}</td>
-                  </tr>
-                  <tr>
-                    <td>
-                      {recipe.totalNutrients["SUGAR.alcohol"]?.label ||
-                        "Sugar alcohols"}
-                    </td>
-                    <td>{`
+                    </tr>
+                    <tr>
+                      <td>
+                        {recipe.totalNutrients["SUGAR.alcohol"]?.label ||
+                          "Sugar alcohols"}
+                      </td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients["SUGAR.alcohol"]?.quantity ||
                           0) / recipe.yield
                       )}${
-                      recipe.totalNutrients["SUGAR.alcohol"]?.unit || "g"
-                    }`}</td>
-                    <td>{`
+                        recipe.totalNutrients["SUGAR.alcohol"]?.unit || "g"
+                      }`}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily["SUGAR.alcohol"]?.quantity || 0) /
                           recipe.yield
                       )}${
-                      recipe.totalDaily["SUGAR.alcohol"]?.unit || "%"
-                    }`}</td>
-                  </tr>
-                  <tr>
-                    <td>{recipe.totalNutrients.WATER?.label || ""}</td>
-                    <td>{`
+                        recipe.totalDaily["SUGAR.alcohol"]?.unit || "%"
+                      }`}</td>
+                    </tr>
+                    <tr>
+                      <td>{recipe.totalNutrients.WATER?.label || ""}</td>
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalNutrients.WATER?.quantity || 0) /
                           recipe.yield
                       )}${recipe.totalNutrients.WATER?.unit || ""}`}</td>
-                    <td>{`
+                      <td>{`
                       ${Math.floor(
                         (recipe.totalDaily.WATER?.quantity || 0) / recipe.yield
                       )}${recipe.totalDaily.WATER?.unit || "%"}`}</td>
-                  </tr>
-                </thead>
-              </table>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
             </div>
           </div>
         </div>
