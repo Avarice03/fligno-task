@@ -15,6 +15,7 @@ const recipeSchema = new mongoose.Schema({
   mealType: Array,
   dishType: Array,
   totalNutrients: Object,
+  totalDaily: Object,
 });
 
 // Defining a model

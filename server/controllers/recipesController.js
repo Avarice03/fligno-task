@@ -16,10 +16,10 @@ const recipeController = {
         _id: payload._id,
         deletedAt: "",
       }).populate("favoriteRecipes");
-      if (!user) {
+      if (!userFavorites) {
         return next(new HttpError("User does not exist", 404));
       }
-      res.json(userFavorites);
+      res.json(userFavorites.favoriteRecipes);
     } catch (error) {
       console.log(error);
     }

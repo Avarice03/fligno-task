@@ -5,25 +5,25 @@ import axios from "axios";
 import { UserContext } from "../providers/User";
 import spinner from "../images/loading.gif";
 import RecipeCard from "../RecipeCard";
+import { getFavoriteRecipes } from "../services/RecipesService";
 
 // Recipes Home page for RecipeEZ
 function Recipes() {
   const navigate = useNavigate();
   const [isLoggedIn, setLoggedIn] = useContext(UserContext);
-  const [recipes, setRecipes] = useState();
+  const [recipes, setRecipes] = useState([]);
   const [recipesCopy, setRecipesCopy] = useState([]);
   const [category, setCategory] = useState("");
   const [cuisine, setCuisine] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [keyword, setKeyword] = useState("");
-  const [personal, setPersonal] = useState(false);
+  const [showFavorites, setShowFavorites] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const tokenExists = localStorage.getItem("token-auth");
   const query = new URLSearchParams(useLocation().search);
   let categoryQuery = query.get("category");
   let cuisineQuery = query.get("cuisine");
   const BASE_URL =
-    "https://api.edamam.com/api/recipes/v2?type=public&app_id=eafc061e&app_key=a5794987f811b6ea660835e57fcc3b19&field=uri&field=label&field=image&field=source&field=url&field=yield&field=healthLabels&field=ingredientLines&field=calories&field=cuisineType&field=mealType&field=dishType&field=totalNutrients";
+    "https://api.edamam.com/api/recipes/v2?type=public&app_id=eafc061e&app_key=a5794987f811b6ea660835e57fcc3b19&field=uri&field=label&field=image&field=source&field=url&field=yield&field=healthLabels&field=ingredientLines&field=calories&field=cuisineType&field=mealType&field=dishType&field=totalNutrients&field=totalDaily";
   // const BASE_URL = "http://localhost:3069";
 
   useEffect(() => {
@@ -31,9 +31,14 @@ function Recipes() {
       try {
         setLoading(true);
         if (isLoggedIn) {
-          const response = await axios.get(`${BASE_URL}&q=${keyword}`);
-          setRecipes(response.data.hits);
-          setRecipesCopy(response.data);
+          if (showFavorites) {
+            const response = await getFavoriteRecipes();
+            setRecipes(response);
+          } else {
+            const response = await axios.get(`${BASE_URL}&q=${keyword}`);
+            setRecipes(response.data.hits);
+            setRecipesCopy(response.data);
+          }
         }
         setLoading(false);
       } catch (error) {
@@ -48,10 +53,7 @@ function Recipes() {
     };
     fetchRecipes();
     // eslint-disable-next-line
-  }, [isLoggedIn, keyword]);
-
-  // console.log("Recipes:", recipes);
-  // console.log("Recipes:", recipesCopy._links.next.href);
+  }, [isLoggedIn, keyword, showFavorites]);
 
   if (categoryQuery === null) {
     categoryQuery = "";
@@ -83,11 +85,8 @@ function Recipes() {
     e.preventDefault();
     filterCategory("", "");
     setKeyword(searchQuery);
+    setShowFavorites(false);
   };
-
-  if (!recipes) {
-    return null;
-  }
 
   // Handle page change
   const handleLoadMore = async () => {
@@ -101,6 +100,10 @@ function Recipes() {
       console.log(error);
     }
   };
+
+  if (!recipes) {
+    return null;
+  }
 
   if (isLoading) {
     return (
@@ -136,11 +139,14 @@ function Recipes() {
                 type="checkbox"
                 className="btn-check"
                 id="btncheck"
-                onClick={() => setPersonal(!personal)}
+                onClick={() => {
+                  setShowFavorites(!showFavorites);
+                  setRecipes([]);
+                }}
               ></input>
               <label
                 className={
-                  !personal ? "btn btn-outline-danger" : "btn btn-danger"
+                  !showFavorites ? "btn btn-outline-danger" : "btn btn-danger"
                 }
                 htmlFor="btncheck"
               >
@@ -153,22 +159,25 @@ function Recipes() {
         </div>
 
         <div className="search-btn">
-          <form className="d-flex" role="search">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Find the recipe you're looking for"
-              aria-label="Search"
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <button
-              className="btn btn-outline-danger"
-              type="submit"
-              onClick={handleSearch}
-            >
-              Search
-            </button>
-          </form>
+          {!showFavorites && (
+            <form className="d-flex" role="search">
+              <input
+                className="form-control me-2"
+                type="search"
+                value={searchQuery}
+                placeholder="Find the recipe you're looking for"
+                aria-label="Search"
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <button
+                className="btn btn-outline-danger"
+                type="submit"
+                onClick={handleSearch}
+              >
+                Search
+              </button>
+            </form>
+          )}
         </div>
       </div>
       <div className="filters-container">
@@ -198,26 +207,18 @@ function Recipes() {
         )}
       </div>
       <h2 className="text-danger" style={{ textTransform: "capitalize" }}>
-        {keyword}
+        {showFavorites ? "Favorite Recipes" : keyword}
       </h2>
       <div className="recipes-item-container">
-        {recipes.map((recipe) => (
-          <RecipeCard
-            key={recipe.recipe.uri}
-            // id={recipe._id}
-            calories={recipe.recipe.calories}
-            servings={recipe.recipe.yield}
-            name={recipe.recipe.label}
-            image={recipe.recipe.image}
-            source={recipe.recipe.source}
-            details={recipe.recipe}
-          />
-        ))}
+        {recipes.map((recipe) => {
+          const recipeData = showFavorites ? recipe : recipe.recipe;
+          return <RecipeCard key={recipeData.uri} details={recipeData} />;
+        })}
       </div>
       {/* Pagination */}
-      {recipes.length === 0 || recipesCopy._links.next === undefined ? (
-        ""
-      ) : (
+      {recipes.length === 0 ||
+      recipesCopy._links.next === undefined ||
+      showFavorites === true ? undefined : (
         <button
           className="btn btn-danger"
           style={{ width: "200px" }}
@@ -231,29 +232,6 @@ function Recipes() {
 }
 
 export default Recipes;
-
-//   if (!personal) {
-//     axios.defaults.headers.common[
-//       "Authorization"
-//     ] = `Bearer ${tokenExists}`;
-//     const { data } = await axios.get(
-//       `${BASE_URL}/v1/recipes/user?category=${categoryQuery}&cuisine=${cuisineQuery}`
-//     );
-//     setRecipesCopy(data);
-//   } else {
-//     axios.defaults.headers.common[
-//       "Authorization"
-//     ] = `Bearer ${tokenExists}`;
-//     const { data } = await axios.get(
-//       `${BASE_URL}/v1/recipes/user/personal?category=${categoryQuery}&cuisine=${cuisineQuery}`
-//     );
-//     setRecipesCopy(data);
-//   }
-// } else {
-//   const { data } = await axios.get(
-//     `${BASE_URL}/v1/recipes?category=${categoryQuery}&cuisine=${cuisineQuery}`
-//   );
-//   setRecipesCopy(data);
 
 // Push each category intro  an array
 // const categories = recipes.reduce((categories, recipe) => {
