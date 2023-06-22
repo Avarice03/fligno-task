@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://flignorecipeez-api.onrender.com";
+const BASE_URL = "https://flignorecipeez-api.onrender.com/api/v1";
 // const BASE_URL = "http://localhost:3069/api/v1";
 
 export const getUserDetails = async () => {
