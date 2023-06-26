@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import backImg from "../images/back.png";
 import { UserContext } from "../providers/User";
 import imagePlaceholder from "../images/photo.png";
@@ -10,11 +10,9 @@ import spinner from "../images/loading.gif";
 // Recipe page for RecipeEZ
 function RecipePage() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [isLoggedIn] = useContext(UserContext);
   const [recipe, setRecipe] = useState();
   const [userDetails] = useContext(UserDetailsContext);
-  const [responseMessage, setResponseMessage] = useState("");
   const tokenExists = localStorage.getItem("token-auth");
   const BASE_URL =
     "https://api.edamam.com/api/recipes/v2/by-uri?type=public&app_id=eafc061e&app_key=a5794987f811b6ea660835e57fcc3b19&field=uri&field=label&field=image&field=source&field=url&field=yield&field=healthLabels&field=ingredientLines&field=calories&field=cuisineType&field=mealType&field=dishType&field=totalNutrients&field=totalDaily&uri=http%3A%2F%2Fwww.edamam.com%2Fontologies%2Fedamam.owl%23";
@@ -24,9 +22,7 @@ function RecipePage() {
       try {
         const response = await axios.get(`${BASE_URL}${id}`);
         setRecipe(response.data.hits[0].recipe);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
     fetch();
   }, [id, tokenExists]);

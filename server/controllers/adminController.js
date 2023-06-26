@@ -1,8 +1,5 @@
-const bcrypt = require("bcrypt");
 const { config } = require("dotenv");
-const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
-const HttpError = require("../models/httpError");
 
 config();
 

@@ -1,6 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import FilterCategory from "../FilterCategory";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UserContext } from "../providers/User";
 import spinner from "../images/loading.gif";
@@ -9,22 +7,15 @@ import { getFavoriteRecipes } from "../services/RecipesService";
 
 // Recipes Home page for RecipeEZ
 function Recipes() {
-  const navigate = useNavigate();
   const [isLoggedIn, setLoggedIn] = useContext(UserContext);
   const [recipes, setRecipes] = useState([]);
   const [recipesCopy, setRecipesCopy] = useState([]);
-  const [category, setCategory] = useState("");
-  const [cuisine, setCuisine] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [keyword, setKeyword] = useState("");
   const [showFavorites, setShowFavorites] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const query = new URLSearchParams(useLocation().search);
-  let categoryQuery = query.get("category");
-  let cuisineQuery = query.get("cuisine");
   const BASE_URL =
     "https://api.edamam.com/api/recipes/v2?type=public&app_id=eafc061e&app_key=a5794987f811b6ea660835e57fcc3b19&field=uri&field=label&field=image&field=source&field=url&field=yield&field=healthLabels&field=ingredientLines&field=calories&field=cuisineType&field=mealType&field=dishType&field=totalNutrients&field=totalDaily";
-  // const BASE_URL = "http://localhost:3069";
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -55,35 +46,9 @@ function Recipes() {
     // eslint-disable-next-line
   }, [isLoggedIn, keyword, showFavorites]);
 
-  if (categoryQuery === null) {
-    categoryQuery = "";
-  }
-  if (cuisineQuery === null) {
-    cuisineQuery = "";
-  }
-
-  // Function for filtering recipes based on category and cuisine
-  const filterCategory = useCallback((category, cuisine) => {
-    setCategory(category);
-    setCuisine(cuisine);
-  }, []);
-
-  // Function for removing category tags
-  const deleteCategory = () => {
-    filterCategory("", cuisine);
-    navigate(`/recipes?&cuisine=${cuisine}`);
-  };
-
-  // Function for removing cuisine tags
-  const deleteCuisine = () => {
-    filterCategory(category, "");
-    navigate(`/recipes?category=${category}`);
-  };
-
   // Function for searching recipe names
   const handleSearch = (e) => {
     e.preventDefault();
-    filterCategory("", "");
     setKeyword(searchQuery);
     setShowFavorites(false);
   };
@@ -115,24 +80,6 @@ function Recipes() {
     <div className="recipes-container">
       <div className="recipes-btn-container">
         <div className="filter-btn-grp">
-          {/* <div className="category-btn">
-            <FilterCategory
-              categories={categories}
-              category={category}
-              cuisine={cuisine}
-              filterCategory={filterCategory}
-              label={"Category"}
-            />
-          </div>
-          <div className="cuisine-btn">
-            <FilterCategory
-              categories={cuisineCategories}
-              category={category}
-              cuisine={cuisine}
-              filterCategory={filterCategory}
-              label={"Cuisine"}
-            />
-          </div> */}
           {isLoggedIn ? (
             <div>
               <input
@@ -180,32 +127,6 @@ function Recipes() {
           )}
         </div>
       </div>
-      <div className="filters-container">
-        {category === "" ? (
-          ""
-        ) : (
-          <button
-            className="filter-btn btn btn-outline-danger"
-            onClick={deleteCategory}
-          >
-            <span className="btn-close" style={{ opacity: "0" }}></span>
-            {category}
-            <span className="btn-close"></span>
-          </button>
-        )}
-        {cuisine === "" ? (
-          ""
-        ) : (
-          <button
-            className="filter-btn btn btn-outline-danger"
-            onClick={deleteCuisine}
-          >
-            <span className="btn-close" style={{ opacity: "0" }}></span>
-            {cuisine}
-            <span className="btn-close"></span>
-          </button>
-        )}
-      </div>
       <h2 className="text-danger" style={{ textTransform: "capitalize" }}>
         {showFavorites ? "Favorite Recipes" : keyword}
       </h2>
@@ -232,19 +153,3 @@ function Recipes() {
 }
 
 export default Recipes;
-
-// Push each category intro  an array
-// const categories = recipes.reduce((categories, recipe) => {
-//   if (!categories.includes(recipe.category)) {
-//     categories.push(recipe.category);
-//   }
-//   return categories;
-// }, []);
-
-// // Push each cuisine intro  an array
-// const cuisineCategories = recipes.reduce((cuisines, recipe) => {
-//   if (!cuisines.includes(recipe.cuisine)) {
-//     cuisines.push(recipe.cuisine);
-//   }
-//   return cuisines;
-// }, []);

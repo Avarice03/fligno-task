@@ -23,16 +23,12 @@ function RecipeCard({ details }) {
       try {
         await removeFavorite(recipe);
         setIsFavorite(false);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     } else {
       try {
         await addFavorite(recipe);
         setIsFavorite(true);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
     setUserDetails({ ...userDetails });
   };
