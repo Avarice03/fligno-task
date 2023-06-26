@@ -27,7 +27,6 @@ function RecipePage() {
     fetch();
   }, [id, tokenExists]);
 
-  console.log(recipe);
   if (!recipe) {
     return (
       <img src={spinner} className="loading-image" alt="cooking cat gif" />

@@ -128,7 +128,6 @@ function Account() {
       alert("User deleted");
       navigate("/login");
     } catch (error) {
-      console.log(error);
       setResponseMessage(error.response.data.message);
     }
   };

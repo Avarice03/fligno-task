@@ -33,7 +33,6 @@ function Recipes() {
         }
         setLoading(false);
       } catch (error) {
-        console.log(error);
         if (error.response.data.message === "jwt expired") {
           localStorage.removeItem("token-auth");
           setLoggedIn();
@@ -61,9 +60,7 @@ function Recipes() {
       setRecipes((prevRecipes) => [...prevRecipes, ...response.data.hits]);
       setRecipesCopy(response.data);
       setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   if (!recipes) {
