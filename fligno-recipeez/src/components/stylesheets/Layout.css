@@ -5,6 +5,24 @@
   font-family: Poppins, sans-serif;
 }
 
+:root {
+  scrollbar-width: thin;
+  scrollbar-color: #888888 #f0f0f0;
+}
+
+::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f0f0f0; /* Color of the scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888888; /* Color of the scrollbar thumb */
+  border-radius: 5px; /* Rounded corners of the scrollbar thumb */
+}
+
 body {
   background-image: linear-gradient(#ffd1d1, #ffe3e1, white);
   background-repeat: no-repeat;
@@ -14,6 +32,24 @@ input {
   border-radius: 10px;
   background-color: #fff5e4;
   padding: 0.5em;
+}
+
+h2 {
+  font-size: 3em;
+  font-family: Montserrat, sans-serif;
+  font-weight: bold;
+}
+
+h3 {
+  margin: 0;
+}
+
+.avatar-placeholder {
+  height: 70px;
+  border: 3px solid #ff9494;
+  border-radius: 100%;
+  margin-bottom: 1em;
+  background-color: #ff9494;
 }
 
 .loading-image {
@@ -44,6 +80,7 @@ input {
 
 .navigation-container {
   grid-area: nav;
+  z-index: 5;
 }
 
 .main-container {
@@ -184,6 +221,97 @@ input {
 .featured-item p {
   font-size: 1.2em;
   font-weight: bold;
+}
+
+/* Users */
+.users-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 70%;
+  height: calc(100vh - 200px);
+}
+
+.users-container h2 {
+  align-self: flex-start;
+}
+
+.chat-container {
+  border: 2px solid #dc3545;
+  width: 90%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.chat-users {
+  width: 40%;
+  height: 100%;
+  border-right: 2px solid #dc3545;
+  padding: 1em;
+  overflow-y: auto;
+}
+
+.chat-list {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.userCard-wrapper {
+  width: 100%;
+  padding: 0.5em;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  gap: 1em;
+  font-size: 1.2em;
+  border-radius: 10px;
+  background-color: #fff5e4;
+}
+
+.userCard-wrapper:hover {
+  background-color: rgba(255, 245, 228, 0.7);
+}
+
+.userCard-wrapper.selected {
+  background-color: #ffd1d1;
+}
+
+.userCard-wrapper .avatar-placeholder {
+  margin-bottom: 0;
+  margin-left: 0.5em;
+}
+
+.chat-wrapper {
+  width: 60%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-header {
+  padding: 1em;
+  border-bottom: 2px solid #dc3545;
+  display: flex;
+}
+
+.chat-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chat-input {
+  padding: 10px;
+  border-top: 1px solid #dc3545;
 }
 
 /* Recipes */
@@ -357,12 +485,6 @@ input {
   width: 70%;
 }
 
-.timer-container h2 {
-  font-size: 3em;
-  font-family: Montserrat, sans-serif;
-  font-weight: bold;
-}
-
 .timer-content {
   display: flex;
   flex-direction: column;
@@ -400,9 +522,6 @@ input {
 
 .about-container h2 {
   margin-bottom: 1em;
-  font-size: 3em;
-  font-family: Montserrat, sans-serif;
-  font-weight: bold;
 }
 
 .about-container p {
@@ -420,9 +539,6 @@ input {
 
 .contact-container h2 {
   margin-bottom: 1em;
-  font-size: 3em;
-  font-family: Montserrat, sans-serif;
-  font-weight: bold;
 }
 
 .content-body {
@@ -502,6 +618,10 @@ input {
 
   .navigation {
     width: 100%;
+  }
+
+  h2 {
+    font-size: 2.5em;
   }
 
   /* Home */
@@ -601,17 +721,9 @@ input {
     width: 90%;
   }
 
-  .timer-container h2 {
-    font-size: 2.5em;
-  }
-
   /* About the App */
   .about-container {
     width: 90%;
-  }
-
-  .about-container h2 {
-    font-size: 2.5em;
   }
 
   .about-container p {
@@ -621,10 +733,6 @@ input {
   /* Contact Me */
   .contact-container {
     width: 90%;
-  }
-
-  .contact-container h2 {
-    font-size: 2.5em;
   }
 }
 
@@ -661,6 +769,10 @@ input {
       "nav"
       "main"
       "footer";
+  }
+
+  h2 {
+    font-size: 1.5em;
   }
 
   .navigation-container {
@@ -811,11 +923,6 @@ input {
     width: 100%;
   }
 
-  .recipePage-container h2 {
-    font-size: 1.5em;
-    font-weight: bold;
-  }
-
   .left-column,
   .right-column {
     padding: 1em;
@@ -845,10 +952,6 @@ input {
     padding-top: 1em;
   }
 
-  .timer-container h2 {
-    font-size: 1.5em;
-  }
-
   .timer-display {
     font-size: 4em;
   }
@@ -863,10 +966,6 @@ input {
     padding-top: 1em;
   }
 
-  .about-container h2 {
-    font-size: 1.5em;
-  }
-
   .about-container p {
     font-size: 0.8em;
   }
@@ -875,10 +974,6 @@ input {
   .contact-container {
     width: 80%;
     padding-top: 1em;
-  }
-
-  .contact-container h2 {
-    font-size: 1.5em;
   }
 
   .content-body {

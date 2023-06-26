@@ -27,7 +27,7 @@ router.use("/", (req, res, next) => {
   }
 });
 
-// GET v1/admin/users (Get all users and their recipes)
+// GET api/v1/admin/users (Get all users and their recipes)
 router.get("/users", adminController.getAllUsers);
 
 module.exports = router;

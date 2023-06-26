@@ -13,6 +13,8 @@ import Signup from "./components/pages/Signup";
 import Account from "./components/pages/Account";
 import { UserDetailsProvider } from "./components/providers/UserDetailsProvider";
 import RouteGuard from "./components/HOC/RouteGuard";
+import AdminGuard from "./components/HOC/AdminGuard";
+import Users from "./components/pages/Users";
 
 function App() {
   const router = createBrowserRouter([
@@ -27,6 +29,14 @@ function App() {
             <RouteGuard>
               <Recipes />
             </RouteGuard>
+          ),
+        },
+        {
+          path: "users",
+          element: (
+            <AdminGuard>
+              <Users />
+            </AdminGuard>
           ),
         },
         { path: "recipe/:id", element: <RecipePage /> },

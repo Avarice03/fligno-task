@@ -32,7 +32,12 @@ function Login() {
       setLoggedIn(localStorage.getItem("token-auth"));
       const data = await getUserDetails();
       setUserDetails(data);
-      navigate("/recipes");
+
+      if (data.isAdmin) {
+        navigate("/users");
+      } else {
+        navigate("/recipes");
+      }
     } catch (error) {
       if (error.response.status === 401) {
         localStorage.removeItem("token-auth");
@@ -55,7 +60,7 @@ function Login() {
 
   return (
     <div className="signin-container">
-      <img src={chef} alt="chef avatar"></img>
+      <img className="avatar-placeholder" src={chef} alt="chef avatar"></img>
       <h2>Sign in to RecipeEZ</h2>
       <div className="login-container">
         <div className="form-container">

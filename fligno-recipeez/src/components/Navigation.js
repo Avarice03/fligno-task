@@ -1,11 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import recipe from "../components/images/recipe.png";
 import { UserContext } from "./providers/User";
+import { UserDetailsContext } from "./providers/UserDetailsProvider";
 
 // Navigation for RecipeEZ
 function Navigation() {
   const [isLoggedIn, setLoggedIn] = useContext(UserContext);
+  const [userDetails] = useContext(UserDetailsContext);
+
+  const isAdmin = userDetails && userDetails.isAdmin;
 
   return (
     <div className="header">
@@ -40,16 +44,20 @@ function Navigation() {
                   Home
                 </NavLink>
               </li>
-              {isLoggedIn ? (
+              {isLoggedIn && !isAdmin && (
                 <li className="nav-item">
                   <NavLink to="/recipes" className="nav-link">
                     Recipes
                   </NavLink>
                 </li>
-              ) : (
-                ""
               )}
-
+              {isLoggedIn && isAdmin && (
+                <li className="nav-item">
+                  <NavLink to="/users" className="nav-link">
+                    Users
+                  </NavLink>
+                </li>
+              )}
               <li className="nav-item ">
                 <NavLink to="/timer" className="nav-link">
                   Timer
@@ -65,14 +73,12 @@ function Navigation() {
                   About
                 </NavLink>
               </li>
-              {isLoggedIn ? (
+              {isLoggedIn && !isAdmin && (
                 <li className="nav-item ">
                   <NavLink to="/account" className="nav-link">
                     Account
                   </NavLink>
                 </li>
-              ) : (
-                ""
               )}
               <div className="signin-form">
                 <li className="nav-item">

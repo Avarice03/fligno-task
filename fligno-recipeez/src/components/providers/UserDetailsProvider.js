@@ -1,9 +1,4 @@
-import {
-  createContext,
-  useState,
-  useEffect,
-  useContext,
-} from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 import { getUserDetails } from "../services/RecipesService";
 import { UserContext } from "./User";
 import axios from "axios";
@@ -15,7 +10,6 @@ export const UserDetailsProvider = (props) => {
   const [userDetails, setUserDetails] = useState();
   const [isLoggedIn, setLoggedIn] = useContext(UserContext);
   const tokenExists = localStorage.getItem("token-auth");
-
 
   useEffect(() => {
     const fetch = async () => {
@@ -30,7 +24,6 @@ export const UserDetailsProvider = (props) => {
           }
         }
       } catch (error) {
-        console.log("userDetails",error);
         if (error.response.status === 401) {
           localStorage.removeItem("token-auth");
           setLoggedIn();

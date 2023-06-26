@@ -11,7 +11,7 @@ const secret = process.env.SECRET;
 const adminController = {
   getAllUsers: async (req, res) => {
     try {
-      const users = await User.find({ deletedAt: "" }).populate("recipes");
+      const users = await User.find({ deletedAt: "", isAdmin: false });
       res.json(users);
     } catch (error) {
       console.log(error);
