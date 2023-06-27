@@ -1,5 +1,7 @@
 # Fligno - RecipeEZ
 
+Deployed at https://flignorecipeez.onrender.com
+
 ## Introduction
 
 This is a web application that consumes data from the Edamam API to provide users 
