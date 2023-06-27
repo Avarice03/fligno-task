@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const BASE_URL = "https://flignorecipeez-api.onrender.com/api/v1";
-const BASE_URL = "http://localhost:3069/api/v1";
+const BASE_URL = "https://flignorecipeez-api.onrender.com/api/v1";
+// const BASE_URL = "http://localhost:3069/api/v1";
 
 export const getAllUsers = async () => {
   const { data } = await axios.get(`${BASE_URL}/admin/users`);

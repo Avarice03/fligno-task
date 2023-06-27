@@ -397,23 +397,25 @@ h3 {
   height: 100px;
 }
 
+.btn-favorite {
+  width: 200px;
+  display: flex;
+  justify-content: center;
+}
+
 .filter-btn-grp {
   display: flex;
   gap: 1em;
-  width: 300px;
+  width: 100%;
   align-items: center;
-}
-
-.filters-container {
-  display: flex;
   justify-content: center;
+  margin-bottom: 1em;
 }
 
 .filter-btn {
   display: flex;
   justify-content: space-between;
   width: 200px;
-  margin-right: 1em;
 }
 
 .search-btn {

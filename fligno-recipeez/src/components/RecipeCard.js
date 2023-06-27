@@ -39,8 +39,6 @@ function RecipeCard({ details }) {
     // setUserDetails({ ...userDetails });
   };
 
-  console.log(userDetails);
-
   const showRecipe = () => {
     const uri = details.uri;
     const id = uri.substring(uri.lastIndexOf("#") + 1);
