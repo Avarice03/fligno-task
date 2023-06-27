@@ -51,3 +51,7 @@ Bootstrap
 Node.js
 Express.js
 MongoDB
+
+## Notes
+
+The web service for the deployed app is designed to automatically spin down after 15 minutes of inactivity due to the limitations of my free account on render.com. However, whenever a new request is received, render.com promptly spins up the web service again, resulting in faster loading times after the initial load. This dynamic process ensures efficient resource allocation while maintaining optimal performance for users.
