@@ -2,7 +2,11 @@ import React, { useContext, useState } from "react";
 import imagePlaceholder from "./images/photo.png";
 import { useNavigate } from "react-router-dom";
 import { UserDetailsContext } from "./providers/UserDetailsProvider";
-import { addFavorite, removeFavorite } from "./services/RecipesService";
+import {
+  addFavorite,
+  getUserDetails,
+  removeFavorite,
+} from "./services/RecipesService";
 
 function RecipeCard({ details }) {
   const [userDetails, setUserDetails] = useContext(UserDetailsContext);
@@ -30,8 +34,12 @@ function RecipeCard({ details }) {
         setIsFavorite(true);
       } catch (error) {}
     }
-    setUserDetails({ ...userDetails });
+    const data = await getUserDetails();
+    setUserDetails(data);
+    // setUserDetails({ ...userDetails });
   };
+
+  console.log(userDetails);
 
   const showRecipe = () => {
     const uri = details.uri;

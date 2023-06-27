@@ -13,6 +13,7 @@ function Signup() {
   const [passErrMessage, setPassErrMessage] = useState([]);
   const [confirmErrMessage, setConfirmErrMessage] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
+  const [showSnackbar, setShowSnackbar] = useState(false);
   const pass = document.querySelectorAll(".pass");
   const togglePassword = document.querySelector("#togglePassword");
   const navigate = useNavigate();
@@ -60,6 +61,20 @@ function Signup() {
     }
   };
 
+  const handleSnackbarTrigger = () => {
+    setShowSnackbar(true);
+    setTimeout(function () {
+      setShowSnackbar(false);
+      setUserName("");
+      setFirstName("");
+      setLastName("");
+      setPassword("");
+      confirmPass("");
+      setConfirmErrMessage("");
+      navigate("/login");
+    }, 3000);
+  };
+
   // Function for signing in
   const handleSignup = async () => {
     try {
@@ -67,8 +82,10 @@ function Signup() {
         setUserErrMessage("");
         if (passwordValidation()) {
           setPassErrMessage([]);
-          const firstNameCopy = firstName.charAt(0).toUpperCase() + firstName.slice(1);
-          const lastNameCopy = lastName.charAt(0).toUpperCase() + lastName.slice(1);
+          const firstNameCopy =
+            firstName.charAt(0).toUpperCase() + firstName.slice(1);
+          const lastNameCopy =
+            lastName.charAt(0).toUpperCase() + lastName.slice(1);
           setFirstName(firstNameCopy);
           setLastName(lastNameCopy);
           if (confirm === password) {
@@ -80,17 +97,7 @@ function Signup() {
             };
             const response = await addUser(user);
             setResponseMessage(response.data.message);
-            alert(
-              `Welcome ${firstName} ${lastName}! You have successfully registered to RecipeEZ.`
-            );
-
-            setUserName("");
-            setFirstName("");
-            setLastName("");
-            setPassword("");
-            confirmPass("");
-            setConfirmErrMessage("");
-            navigate("/login");
+            handleSnackbarTrigger();
           } else {
             setConfirmErrMessage("Your password did not match.");
           }
@@ -220,6 +227,12 @@ function Signup() {
           <span>➡️</span>
         </div>
       </div>
+      {showSnackbar && (
+        <div id="snackbar" className="show">
+          {`Welcome ${firstName} ${lastName}! You have successfully registered to
+        RecipeEZ.`}
+        </div>
+      )}
     </div>
   );
 }

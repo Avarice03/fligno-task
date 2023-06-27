@@ -1,15 +1,11 @@
 import React, { useContext, useState } from "react";
 import { UserDetailsContext } from "../providers/UserDetailsProvider";
 import { useNavigate } from "react-router-dom";
-import {
-  deleteUser,
-  getPublicRecipes,
-  updateUserDetails,
-} from "../services/RecipesService";
+import { deleteUser, updateUserDetails } from "../services/RecipesService";
 import { UserContext } from "../providers/User";
 
 function Account() {
-  const [userDetails, setUserDetails] = useContext(UserDetailsContext);
+  const [userDetails] = useContext(UserDetailsContext);
   const [userName, setUserName] = useState(userDetails?.userName || "");
   const [firstName, setFirstName] = useState(userDetails?.firstName || "");
   const [lastName, setLastName] = useState(userDetails?.lastName || "");
@@ -19,6 +15,8 @@ function Account() {
   const [passErrMessage, setPassErrMessage] = useState([]);
   const [confirmErrMessage, setConfirmErrMessage] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
+  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [showDeleteSnackbar, setShowDeleteSnackbar] = useState(false);
   const [, setLoggedIn] = useContext(UserContext);
   const pass = document.querySelectorAll(".pass");
   const togglePassword = document.querySelector("#togglePassword");
@@ -65,6 +63,30 @@ function Account() {
       return true;
     }
   };
+
+  const handleSnackbarTrigger = () => {
+    setShowSnackbar(true);
+    setTimeout(function () {
+      setShowSnackbar(false);
+      setUserName("");
+      setFirstName("");
+      setLastName("");
+      setPassword("");
+      confirmPass("");
+      setConfirmErrMessage("");
+      navigate("/recipes");
+    }, 3000);
+  };
+
+  const handleDeleteSnackbarTrigger = () => {
+    setShowDeleteSnackbar(true);
+    setTimeout(function () {
+      setShowDeleteSnackbar(false);
+      setLoggedIn(false);
+      navigate("/login");
+    }, 3000);
+  };
+
   const handleUpdateUser = async () => {
     try {
       if (userName) {
@@ -84,17 +106,7 @@ function Account() {
             };
             const response = await updateUserDetails(userDetails);
             setResponseMessage(response.data.message);
-            alert(
-              `Welcome ${firstName} ${lastName}! You have successfully updated your account`
-            );
-            setUserDetails(userDetails);
-            setUserName("");
-            setFirstName("");
-            setLastName("");
-            setPassword("");
-            confirmPass("");
-            setConfirmErrMessage("");
-            navigate("/recipes");
+            handleSnackbarTrigger();
           } else {
             setConfirmErrMessage("Your password did not match.");
           }
@@ -124,9 +136,7 @@ function Account() {
     try {
       const response = await deleteUser();
       setResponseMessage(response.data.message);
-      setLoggedIn(false);
-      alert("User deleted");
-      navigate("/login");
+      handleDeleteSnackbarTrigger();
     } catch (error) {
       setResponseMessage(error.response.data.message);
     }
@@ -290,6 +300,16 @@ function Account() {
           </div>
         </div>
       </div>
+      {showSnackbar && (
+        <div id="snackbar" className="show">
+          {`You have successfully updated your account`}
+        </div>
+      )}
+      {showDeleteSnackbar && (
+        <div id="snackbar" className="show">
+          {`Account Deleted`}
+        </div>
+      )}
     </>
   );
 }

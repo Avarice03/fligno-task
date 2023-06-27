@@ -28,6 +28,7 @@ export const UserDetailsProvider = (props) => {
           localStorage.removeItem("token-auth");
           setLoggedIn();
           window.location.reload(true);
+          alert(`Session expired`);
         }
       }
     };
