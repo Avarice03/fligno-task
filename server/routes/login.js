@@ -14,7 +14,10 @@ const HttpError = require("../models/httpError");
 router.post("/", async (req, res, next) => {
   try {
     const { userName, passwordInput } = req.body;
-    const user = await User.findOne({ userName: userName, deletedAt: "" });
+    const user = await User.findOne({
+      userName: userName.toLowerCase(),
+      deletedAt: "",
+    });
 
     if (!user) {
       return next(new HttpError("Incorrect username or password", 401));
